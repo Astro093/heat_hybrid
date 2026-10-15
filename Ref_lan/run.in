@@ -1,0 +1,28 @@
+# **************************************************************** #
+# ******************* Vivekkumar Panneerselvam ******************* #
+# *******************    Post-Doc gift-SJTU    ******************* #
+# **************************************************************** #
+
+# cSi NEMD simulation
+
+potential       nep.txt
+
+time_step       1.0
+
+# Initialize velocity 
+velocity        300 seed 524653
+
+# Force and Energy minimization
+minimize sd 1.0e-6 2000000
+
+# Thermal Equilibration at 300 K
+ensemble        nvt_lan 300 300 100 
+fix             0
+run             1000000
+
+# nemd simulation - production run
+#ensemble         heat_hybrid lan lan 300 100 100 20 1 23
+ensemble        heat_lan 300 100 20 1 23
+fix             0
+compute         0 10 10000 temperature 
+run             1000000
